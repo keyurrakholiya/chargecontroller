@@ -39,7 +39,7 @@ double  power_in,power_out = 0;
 double  eff = 0;
 double  VOLTS_SCALE ,VOLTS_SCALE2= 0;
 double  volt ,volt2= 0;
-double  SolarVolt=0, SolarCurrent=0,SolarPower = 0,OldPower;
+double  SolarVolt=0, SolarCurrent=0,SolarPower = 0,OldPower, BatteryCurrent, OutputPower;
 float   max_battery_volt = 13.4, max_battery_currrent = 20;
 float BatteryVolt;
 int pwm_duty;
@@ -129,6 +129,8 @@ void loop() {
   read_data();
   mode_select();
   run_charger();
+  display_data();
+  delay(100);
 
 
   
@@ -141,6 +143,29 @@ void read_data()
   SolarCurrent = current_in();
   BatteryVolt = volt_out();
   SolarPower = SolarVolt * SolarCurrent ;
+  
+  BatteryCurrent = current_out();
+  OutputPower = BatteryCurrent * BatteryVolt;
+}
+
+void display_data()
+{
+  Serial.print("input voltage = ");
+  Serial.print(SolarVolt);
+  Serial.print("output voltage = ");
+  Serial.print(BatteryVolt);
+  Serial.print("input power");
+  Serial.println(SolarPower);
+  
+  Serial.print("input current = ");
+  Serial.print(SolarCurrent);
+  Serial.print("output current = ");
+  Serial.print(BatteryCurrent);
+  Serial.print("output power = ");
+  Serial.println(OutputPower);
+
+  Serial.println(mode);
+  
 }
 
 void mode_select()
