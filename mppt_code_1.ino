@@ -181,6 +181,7 @@ void run_charger()
         pwm_duty =  constrain (pwm_duty, 0, 255);
         analogWrite(buck,pwm_duty); 
       }
+      break;
 
     case MPPT:
       if(SolarPower < OldPower) 
@@ -195,6 +196,8 @@ void run_charger()
         pwm_duty =  constrain (pwm_duty, 0, 255);
         analogWrite(buck,pwm_duty); 
       }
+      OldPower = SolarPower; 
+      break;
   }
 }
 
